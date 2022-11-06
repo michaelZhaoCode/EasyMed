@@ -1,14 +1,14 @@
-import { Button, StyleSheet, Text, View,Platform ,Image,Alert, TextInput } from 'react-native';
+import { Button, StyleSheet, Text, View,Platform ,Image,Alert, TextInput, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 
 export default function LoginScreen({navigation}) {
 
-  const [email,setEmail] = useState('');
-  const [password,setPassword] = useState('');
+  const [email,setEmail] = useState('test');
+  const [password,setPassword] = useState('123');
 
   const postData = async(email,password) => {
     try {
-      let res = await fetch('https://ez-med.herokuapp.com/login', {
+      let res = await fetch('https://ezmed.herokuapp.com/login', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -20,7 +20,7 @@ export default function LoginScreen({navigation}) {
         }),
       });
       res = await res.json();
-      
+      console.log(res)
       if(res.Medicines){
         navigation.navigate('Home',{data:res.Medicines,email: email})
       }
@@ -38,6 +38,7 @@ export default function LoginScreen({navigation}) {
   }
     return (
       <View style={styles.container}>
+        <Text style={styles.title}>EasyMed</Text>
         <TextInput
           style={styles.input}
           onChangeText={setEmail}
@@ -49,7 +50,16 @@ export default function LoginScreen({navigation}) {
           value={password}
           secureTextEntry={true}
         />
-        <Button title='Login' onPress={handleLogin} />
+        <TouchableOpacity style={{
+          borderRadius: 3,
+          padding: 15,
+          elevation: 2,
+          marginTop:20,backgroundColor: '#01579B',
+          width:'80%'
+        }} onPress={handleLogin} >
+          <Text style={{textAlign:'center',fontSize:15,color:'#fff',fontWeight:'bold'}}>Login</Text>
+        </TouchableOpacity>
+        {/* <Button title='Login' /> */}
       </View>
     );
   }
@@ -58,12 +68,21 @@ export default function LoginScreen({navigation}) {
       flex: 1,
       backgroundColor: '#fff',
       justifyContent: 'center',
+      alignItems:'center'
     },
     input: {
       height: 40,
       margin: 12,
       borderWidth: 1,
       padding: 10,
+      width:'80%'
+      
     },
+    title:{
+      fontSize:30,
+      textAlign:'center',
+      fontWeight:'bold',
+      marginBottom:50
+    }
   });
   
