@@ -176,7 +176,7 @@ def add_record():
         expected_datetime = datetime.today()
         expected_datetime = expected_datetime.replace(hour=times[0], minute=times[1], second=times[2])
         time_diff = current_datetime - expected_datetime
-        mins_diff = time_diff.total_seconds() / 60
+        mins_diff = abs(time_diff.total_seconds() / 60)
 
         if mins_diff > 10:
             status = 'MISS'
@@ -189,8 +189,6 @@ def add_record():
         response = {
             # Add this option to distinct the POST request
             "Records": sql.load_records(email),
-            "minsdiff": mins_diff,
-            "expected_datetime": expected_datetime.strftime("%Y/%m/%d %H:%M:%S"),
             "METHOD": "POST"
         }
         return jsonify(response)
